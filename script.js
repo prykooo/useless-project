@@ -26,5 +26,5 @@ app.use(express.static("public"));
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(VibeCheck backend running on http://localhost:${PORT});
+  console.log(`VibeCheck backend running on http://localhost:${PORT}`);
 });
