@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VibeCheck — What's your vibe?</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="wrap" id="app">
+    <h1>VibeCheck</h1>
+
+    <div class="card" id="card" aria-live="polite">
+      <div class="emoji" id="emoji">✨</div>
+      <div class="vibe" id="vibe">Press “Vibe Check” to find out...</div>
+    </div>
+
+    <div class="controls">
+      <button id="vibeBtn">Vibe Check</button>
+      <button id="saveBtn">Save</button>
+      <button id="shareBtn">Share</button>
+    </div>
+
+    <section id="savedSection">
+      <h2>Saved vibes</h2>
+      <ul id="savedList"></ul>
+    </section>
+
+    <footer>
+      <small>Tip: press <kbd>Space</kbd> to vibe-check</small>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
