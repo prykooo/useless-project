@@ -1,249 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>VibeCheck 🌈</title>
-  <style>
-    :root{
-      --bg:#0f1724;
-      --card:#0b1220;
-      --accent:#7c5cff;
-      --muted:#98a0b3;
-      --glass: rgba(255,255,255,0.03);
-      --radius:14px;
-      --gap:16px;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      background: linear-gradient(180deg,#071023 0%, #081226 60%);
-      color:#e6eef8;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:32px;
-    }
-    .app{width:100%;max-width:760px}
-    .hero{
-      background:var(--glass);
-      padding:28px;
-      border-radius:var(--radius);
-      text-align:center;
-      box-shadow: 0 8px 30px rgba(2,6,23,0.6);
-    }
-    .hero h1{font-size:36px;margin:0 0 6px}
-    .subtitle{color:var(--muted);margin:0 0 18px}
-    .primary-btn{
-      background: linear-gradient(90deg,var(--accent), #00d4ff);
-      color:#071226;
-      border:none;
-      padding:12px 18px;
-      border-radius:10px;
-      font-weight:600;
-      cursor:pointer;
-      box-shadow:0 6px 18px rgba(124,92,255,0.18);
-    }
-    .ghost-btn{
-      background:transparent;border:1px solid rgba(255,255,255,0.06);
-      padding:10px 14px;border-radius:10px;color:var(--muted);cursor:pointer;
-    }
-    .card{
-      margin-top:var(--gap);
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.015));
-      padding:20px;border-radius:12px;
-      box-shadow: 0 6px 24px rgba(2,6,23,0.45);
-    }
-    .hidden{display:none}
-    .options{display:grid;gap:10px;margin-top:14px}
-    .option-btn{
-      background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
-      padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);
-      cursor:pointer;text-align:left;
-    }
-    .option-btn.selected{outline:3px solid rgba(124,92,255,0.12)}
-    .controls{display:flex;justify-content:space-between;margin-top:18px}
-    .footer{text-align:center;color:var(--muted);font-size:13px;margin-top:14px}
-    .emoji{font-size:48px;margin-top:12px}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🌈 VibeCheck</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fad0c4, #fbc2eb, #a6c1ee);
+    background-size: 400% 400%;
+    animation: gradientShift 10s ease infinite;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  @keyframes gradientShift {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+  }
+
+  h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease;
+  }
+
+  .container {
+    max-width: 500px;
+    margin: auto;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    backdrop-filter: blur(8px);
+  }
+
+  button {
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1em;
+    color: white;
+    transition: all 0.3s ease;
+  }
+
+  button:hover {
+    background: rgba(255, 255, 255, 0.6);
+    color: #333;
+    transform: scale(1.05);
+  }
+
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>
 </head>
 <body>
-  <main class="app">
-    <header class="hero">
-      <h1>VibeCheck</h1>
-      <p class="subtitle">Quick, fun questions to check your vibe</p>
-      <button id="startBtn" class="primary-btn">Check your vibe</button>
-    </header>
 
-    <section id="quizArea" class="card hidden">
-      <div id="questionCard">
-        <h2 id="questionText">Question text</h2>
-        <div id="options" class="options"></div>
-        <div class="controls">
-          <button id="prevBtn" class="ghost-btn">◀ Prev</button>
-          <button id="nextBtn" class="primary-btn">Next ▶</button>
-        </div>
-      </div>
-    </section>
+<div class="container">
+  <h1 id="title">🌟 Check Your Vibe 🌟</h1>
+  <div id="question-container">
+    <button id="start-btn">Start</button>
+  </div>
+</div>
 
-    <section id="resultArea" class="card hidden">
-      <h2 id="resultTitle">Your vibe</h2>
-      <p id="resultDesc"></p>
-      <div id="resultEmoji" class="emoji">✨</div>
-      <button id="restartBtn" class="primary-btn">Check again</button>
-    </section>
+<script>
+const questions = [
+  { q: "What's your go-to drink?", options: ["☕ Coffee", "🍵 Tea", "🥤 Juice", "💧 Water"] },
+  { q: "Pick a weekend plan", options: ["🎉 Party", "📚 Reading", "🎮 Gaming", "🌳 Nature walk"] },
+  { q: "Choose a snack", options: ["🍕 Pizza", "🍫 Chocolate", "🍿 Popcorn", "🥗 Salad"] },
+  { q: "Your current mood?", options: ["😌 Chill", "⚡ Energetic", "😂 Playful", "🤔 Thoughtful"] },
+  { q: "Pick a music vibe", options: ["🎵 Pop", "🎸 Rock", "🎷 Jazz", "🎹 Lo-fi"] },
+  { q: "What's your ideal vacation?", options: ["🏖 Beach", "🏔 Mountains", "🏙 City", "🏜 Desert"] }
+];
 
-    <footer class="footer">Made with ☕ and curiosity</footer>
-  </main>
+const vibes = [
+  "🌈 Pure radiance — you light up every room!",
+  "⚡ Electric energy — unstoppable and bold!",
+  "🫶 Cozy soul — warm and inviting vibes.",
+  "🎨 Creative spirit — ideas flow like magic.",
+  "🍀 Lucky charm — good things follow you.",
+  "😎 Cool breeze — laid-back and chill.",
+  "🔥 Firecracker — full of excitement and passion!",
+  "🌊 Ocean calm — peaceful yet powerful."
+];
 
-  <script>
-    const startBtn = document.getElementById('startBtn');
-    const quizArea = document.getElementById('quizArea');
-    const resultArea = document.getElementById('resultArea');
-    const questionText = document.getElementById('questionText');
-    const optionsDiv = document.getElementById('options');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const restartBtn = document.getElementById('restartBtn');
-    const resultTitle = document.getElementById('resultTitle');
-    const resultDesc = document.getElementById('resultDesc');
-    const resultEmoji = document.getElementById('resultEmoji');
+let currentQuestionIndex = 0;
+const title = document.getElementById("title");
+const container = document.getElementById("question-container");
+const startBtn = document.getElementById("start-btn");
 
-    let current = 0;
-    let answers = [];
+startBtn.addEventListener("click", startQuiz);
 
-    const questions = [
-      {
-        q: "Pick a weekend activity:",
-        options: [
-          { txt: "Yoga & tea", score: { calm: 2 } },
-          { txt: "Rave / dance", score: { energetic: 2 } },
-          { txt: "Binge a cozy show", score: { cozy: 2 } },
-          { txt: "Try something spicy & new", score: { spicy: 2 } }
-        ]
-      },
-      {
-        q: "Your ideal weather:",
-        options: [
-          { txt: "Soft drizzle", score: { calm: 2 } },
-          { txt: "Bright sun", score: { energetic: 2 } },
-          { txt: "Crisp cold", score: { cozy: 2 } },
-          { txt: "Thunderstorm", score: { spicy: 2 } }
-        ]
-      },
-      {
-        q: "Choose a snack:",
-        options: [
-          { txt: "Herbal biscuit", score: { calm: 1 } },
-          { txt: "Energy drink", score: { energetic: 1 } },
-          { txt: "Hot chocolate", score: { cozy: 1 } },
-          { txt: "Chili chips", score: { spicy: 1 } }
-        ]
-      },
-      {
-        q: "Pick a soundtrack:",
-        options: [
-          { txt: "Ambient pads", score: { calm: 2 } },
-          { txt: "Upbeat pop", score: { energetic: 2 } },
-          { txt: "Acoustic warmth", score: { cozy: 2 } },
-          { txt: "Dark bass", score: { spicy: 2 } }
-        ]
-      }
-    ];
+function startQuiz() {
+  currentQuestionIndex = 0;
+  showQuestion();
+}
 
-    function renderQuestion() {
-      const q = questions[current];
-      questionText.textContent = `${current + 1}. ${q.q}`;
-      optionsDiv.innerHTML = '';
-      q.options.forEach((opt, i) => {
-        const b = document.createElement('button');
-        b.className = 'option-btn';
-        b.type = 'button';
-        b.innerHTML = `<strong>${String.fromCharCode(65 + i)}.</strong> ${opt.txt}`;
-        b.onclick = () => {
-          answers[current] = i;
-          Array.from(optionsDiv.children).forEach(c => c.classList.remove('selected'));
-          b.classList.add('selected');
-        };
-        if (answers[current] === i) b.classList.add('selected');
-        optionsDiv.appendChild(b);
-      });
-      prevBtn.disabled = current === 0;
-      nextBtn.textContent = current === questions.length - 1 ? 'Finish' : 'Next ▶';
-    }
+function showQuestion() {
+  const question = questions[currentQuestionIndex];
+  container.innerHTML = `<h2>${question.q}</h2>`;
+  question.options.forEach(option => {
+    const btn = document.createElement("button");
+    btn.textContent = option;
+    btn.addEventListener("click", nextQuestion);
+    container.appendChild(btn);
+  });
+}
 
-    function computeVibe(answers) {
-      const totals = { calm:0, energetic:0, cozy:0, spicy:0 };
-      for (let i = 0; i < answers.length; i++) {
-        const opt = questions[i].options[answers[i]];
-        if (opt && opt.score) {
-          for (let k in opt.score) {
-            totals[k] += opt.score[k];
-          }
-        }
-      }
-      const sorted = Object.entries(totals).sort((a,b) => b[1]-a[1]);
-      const [topVibe, topScore] = sorted[0];
-      const vibeMap = {
-        calm: { name: 'Calm & Chill', emoji: '😌', description: "You're in a relaxed mood — cozy corners, soft music, low energy but content." },
-        energetic: { name: 'Full Energy', emoji: '⚡️', description: "You're buzzing — ready to go, social, and up for action." },
-        cozy: { name: 'Cozy Comfort', emoji: '🫶', description: "Warm, fuzzy, and content. Blankets, hot drinks, good vibes." },
-        spicy: { name: 'Spicy & Adventurous', emoji: '🌶️', description: "Bold, edgy, and curious — you like things with a kick." }
-      };
-      const second = sorted[1];
-      if (second && Math.abs(topScore - second[1]) <= 1) {
-        const mixedName = `${vibeMap[topVibe].name} + ${vibeMap[second[0]].name.split(' ')[0]}`;
-        return {
-          vibeName: mixedName,
-          emoji: vibeMap[topVibe].emoji,
-          description: `You're a mix: ${vibeMap[topVibe].description} Also a hint of ${vibeMap[second[0]].description.toLowerCase()}`
-        };
-      }
-      return vibeMap[topVibe];
-    }
+function nextQuestion() {
+  currentQuestionIndex++;
+  if (currentQuestionIndex < questions.length) {
+    showQuestion();
+  } else {
+    showResult();
+  }
+}
 
-    prevBtn.addEventListener('click', () => {
-      if (current === 0) return;
-      current--;
-      renderQuestion();
-    });
+function showResult() {
+  const randomVibe = vibes[Math.floor(Math.random() * vibes.length)];
+  container.innerHTML = `<h2>Your vibe: ${randomVibe}</h2>
+    <button onclick="startQuiz()">Try Again</button>`;
+}
+</script>
 
-    nextBtn.addEventListener('click', () => {
-      if (answers[current] == null) {
-        alert('Pick an option first 😉');
-        return;
-      }
-      if (current < questions.length - 1) {
-        current++;
-        renderQuestion();
-        return;
-      }
-      const result = computeVibe(answers);
-      showResult(result);
-    });
-
-    function showResult(data) {
-      quizArea.classList.add('hidden');
-      resultArea.classList.remove('hidden');
-      resultTitle.textContent = data.vibeName || 'Your vibe';
-      resultDesc.textContent = data.description || '';
-      resultEmoji.textContent = data.emoji || '✨';
-    }
-
-    startBtn.addEventListener('click', () => {
-      document.querySelector('.hero').classList.add('hidden');
-      quizArea.classList.remove('hidden');
-      current = 0;
-      answers = [];
-      renderQuestion();
-    });
-
-    restartBtn.addEventListener('click', () => {
-      resultArea.classList.add('hidden');
-      document.querySelector('.hero').classList.remove('hidden');
-    });
-  </script>
 </body>
 </html>
